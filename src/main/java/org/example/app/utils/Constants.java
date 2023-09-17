@@ -28,6 +28,7 @@ public final class Constants {
     public final static String SALARY_RGX = "\\d+";
     public final static String WRONG_SALARY_MSG = "Wrong salary input.";
 
+
     public final static String INCORRECT_VALUE_MSG = ">> Incorrect value! Try again...";
     public final static String APP_CLOSE_MSG = "\n>> App closed.";
     public final static String INPUT_REQ_MSG = "Input required.";

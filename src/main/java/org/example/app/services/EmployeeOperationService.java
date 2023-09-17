@@ -1,39 +1,26 @@
-package org.example.app.services.employees;
+package org.example.app.services;
 
 import org.example.app.entities.Employee;
-import org.example.app.exceptions.CreateException;
-import org.example.app.repositories.employees.EmployeeCreateRepository;
+import org.example.app.repositories.BaseRepository;
 import org.example.app.utils.*;
 
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EmployeeCreateService {
+public class EmployeeOperationService extends OperationService<Employee> {
 
-    EmployeeCreateRepository repository;
-
-    public EmployeeCreateService(EmployeeCreateRepository repository) {
-        this.repository = repository;
+    public EmployeeOperationService(BaseRepository<Employee> repository) {
+        super(repository);
     }
 
-    public String createEmployee(String[] data) {
-
-        Map<String, String> errors = validateData(data);
-
-        if (!errors.isEmpty()) {
-            try {
-                throw new CreateException("Check inputs", errors);
-            } catch (CreateException e) {
-                return e.getErrors(errors);
-            }
-        }
-
-        return repository.createEmployee(convertData(data));
+    @Override
+    public String read() {
+        return super.read(Constants.TABLE_EMPLOYEES);
     }
 
-    private Map<String, String> validateData(String[] data) {
-
+    @Override
+    protected Map<String, String> validateData(String[] data) {
         Map<String, String> errors = new HashMap<>();
 
         if (data[0].isEmpty())
@@ -45,7 +32,7 @@ public class EmployeeCreateService {
         if (DateValidator.isDateValid(data[2]))
             errors.put("data", Constants.WRONG_DATE_MSG);
 
-        if (IdValidator.isIdValid(data[3])) {
+        if (IdChecker.isIdValid(data[3])) {
             errors.put("position id", Constants.WRONG_ID_MSG);
         } else if (!IdChecker.isIdExists(Integer.parseInt(data[3]))) {
             errors.put("position id", Constants.UNKNOWN_ID_MSG);
@@ -60,7 +47,8 @@ public class EmployeeCreateService {
         return errors;
     }
 
-    private Employee convertData(String[] data) {
+    @Override
+    protected Employee convertData(String[] data) {
         Employee employee = new Employee();
 
         employee.setFirstName(data[0]);
