@@ -6,7 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class IdChecker {
+
+    public static boolean isIdValid(String id) {
+        return id.isEmpty() || !id.matches(Constants.ID_RGX);
+    }
 
     public static boolean isIdExists(int id) {
 

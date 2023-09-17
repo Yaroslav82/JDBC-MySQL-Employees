@@ -1,7 +1,8 @@
-package org.example.app.views.positions;
+package org.example.app.views;
 
-public class PositionReadView {
+public class ReadView implements View {
 
+    @Override
     public void getOutput(String output) {
         System.out.println(output);
     }

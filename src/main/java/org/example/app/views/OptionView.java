@@ -6,10 +6,20 @@ import org.example.app.utils.Constants;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class AppView {
+public class OptionView implements View {
 
-    Scanner scanner;
-    int option;
+    private final String title;
+    private final String option_1;
+    private final String option_2;
+
+    private Scanner scanner;
+    private int option;
+
+    public OptionView(String title, String option_1, String option_2) {
+        this.title = title;
+        this.option_1 = option_1;
+        this.option_2 = option_2;
+    }
 
     public int chooseOption() {
         scanner = new Scanner(System.in);
@@ -24,21 +34,19 @@ public class AppView {
     }
 
     private void showMenu() {
-        System.out.print("""
+        System.out.printf("""
                 
-                ______ Main Menu ___________
-                1 - Positions
-                2 - Employees
+                ___________ %s Menu ___________
+                1 - %s
+                2 - %s
                 0 - Close the App.
-                """);
+                """, title, option_1, option_2);
     }
 
-    public void getOutput(int choice, String output) {
-        if (choice == 0) System.out.println(output);
-        // Scanner лучше закрыть здесь,
-        // т.к. в этом методе завершаем программу.
+    @Override
+    public void getOutput(String output) {
+        System.out.println(output);
         scanner.close();
         System.exit(0);
     }
 }
-
